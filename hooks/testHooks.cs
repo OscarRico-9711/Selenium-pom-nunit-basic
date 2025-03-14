@@ -21,7 +21,7 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 		[TearDown] 		
 		public void tearDown()
 		{
-			Thread.Sleep(3000);
+			Thread.Sleep(2000);
 			webDriverManager.Quitdriver();		
 		}
 	}
