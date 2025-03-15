@@ -12,21 +12,35 @@ namespace Practica_selenium___nunit___pom_basic.tests
 	public class TestGoogle : testHooks
 	{
 
-		private GooglePage googlePage;
+		private HomePage _homePage;
 
 		[SetUp]
-		public void SetUp() {
-			googlePage = new GooglePage(webDriverManager.getDriver());
+		public void SetUp()
+		{
+			_homePage = new HomePage(webDriverManager.getDriver("chrome"));
 		}
 
 		[Test]
-		public void SearchOnGoggle()
+		public void FillFullFormSuccesfully()
 		{
-			googlePage.OpenUrl();
-			googlePage.SelectContact();
-			
+			_homePage.OpenURL("https://demoqa.com");
+			_homePage.SelectElemetsModule();
+
+			string currentUrl = _homePage.GetCurrentUrl();
+			Assert.That(currentUrl, Is.EqualTo("https://demoqa.com/elements"), "Url incorrecta");
+
+			_homePage.SelectTextBoxOption();
+			_homePage.FillFullForm("Oscar", "Oscar@gmail.com", "calle23");
+
+
+			bool IsOutputVisible = _homePage.ElementIsVisible();
+			Assert.That(IsOutputVisible, Is.True, "Elemento no esta presente");
+
+			///validar data agregada que sea la misma en el output
+
 		}
 
 
 	}
+
 }
