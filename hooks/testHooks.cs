@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.BiDi.Communication;
 using Practica_selenium___nunit___pom_basic.drivers;
+using Practica_selenium___nunit___pom_basic.utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 	{
 		protected IWebDriver driver;
 		private string browser;
+		private CommonActions _commonActions;
 
 		[SetUp]
 		public void setUp()
@@ -20,15 +22,37 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 
 			browser = TestContext.Parameters.Get("browser", "chrome"); // Default: Chrome
 			driver = webDriverManager.getDriver(browser);
+			_commonActions = new CommonActions(driver);
 		}
 
-
-
-		public void Dispose() 
+		[TearDown]
+		public void TearDown()
 		{
-			Thread.Sleep(2000);
+
+			if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Failed)
+			{
+				
+
+				_commonActions.TakeScreenshoot();
+
+				Thread.Sleep(2000);
+			}
+			else {
+			
+			Console.WriteLine($"{TestContext.CurrentContext.Test.Name} : {TestContext.CurrentContext.Result.Outcome.Status}");
+
+
+			}
+
+		}
+
+		public void Dispose()
+		{
+
 			webDriverManager.Quitdriver();
 		}
+
+
 	}
 
 

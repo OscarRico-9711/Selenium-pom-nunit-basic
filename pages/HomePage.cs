@@ -44,20 +44,28 @@ namespace Practica_selenium___nunit___pom_basic.pages
 
 		public void FillFullForm(string fullname, string fullEmail, string fullAdress)
 		{
-
-
 			SendText(HomePageLocators.fullname, fullname);
-			string addedname = GetElementText(HomePageLocators.fullname);
-
 			SendText(HomePageLocators.fullEmail, fullEmail);
-			string addedemail = GetElementText(HomePageLocators.fullname);
-
 			SendText(HomePageLocators.fullAdress, fullAdress);
 			Click(HomePageLocators.SubmitForm);
-
 		}
 
-		
+		public string GetOutputTextName()
+		{
+			return GetElementText(HomePageLocators.Outputname);
+		}
+
+		public string GetOutputTextEmail()
+		{
+			return GetElementText(HomePageLocators.OutputEmail);
+		}
+
+		public string GetOutputTextAddress()
+		{
+			return GetElementText(HomePageLocators.OutputcurrentAdress);
+		}
+
+
 	}
 }
 ;
