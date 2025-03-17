@@ -9,22 +9,36 @@ using System.Text;
 using System.Threading.Tasks;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager;
+using Newtonsoft.Json.Linq;
 
 namespace Practica_selenium___nunit___pom_basic.drivers
 {
 	public class webDriverManager
 	{
 
-		private static IWebDriver driver;
+		private IWebDriver driver;
 
-		public static IWebDriver getDriver(String browser)
+		public IWebDriver getDriver(String browser)
 		{
 			if (driver == null)
 			{
+				// Leer la configuración desde el JSON
+				bool isHeadless = GetHeadlessConfig();
+
 				if (browser.ToLower() == "chrome")
 				{
-					new DriverManager().SetUpDriver(new ChromeConfig());  // Descarga y configura ChromeDriver
-					driver = new ChromeDriver();
+					new DriverManager().SetUpDriver(new ChromeConfig());
+					ChromeOptions options = new ChromeOptions();
+					options.AddArgument("--no-sandbox");
+					options.AddArgument("--disable-dev-shm-usage");
+
+					if (isHeadless)
+					{
+						options.AddArgument("--headless"); // Opcional: para ejecución sin interfaz gráfica
+					}
+
+					driver = new ChromeDriver(options);
+
 				}
 				else if (browser.ToLower() == "firefox")
 				{
@@ -42,7 +56,7 @@ namespace Practica_selenium___nunit___pom_basic.drivers
 			return driver;
 
 		}
-		public static void Quitdriver()
+		public void Quitdriver()
 		{
 			if (driver != null)
 			{
@@ -50,6 +64,29 @@ namespace Practica_selenium___nunit___pom_basic.drivers
 				driver = null;
 			}
 		}
+
+		public static bool GetHeadlessConfig()
+		{
+
+			try
+			{
+				string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+				string jsonPath = Path.Combine(baseDirectory, "AppSettings.json");
+
+				string jsontext = File.ReadAllText(jsonPath);
+				JObject config = JObject.Parse(jsontext);
+				return config["headless"]?.ToObject<bool>() ?? false;
+			}
+			catch (Exception)
+			{
+
+				return false;
+			}
+
+
+		}
+
 
 	}
 }

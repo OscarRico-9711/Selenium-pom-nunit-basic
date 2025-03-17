@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Practica_selenium___nunit___pom_basic.locators
 {
-	public class HomePageLocators
+	public class ElementPageLocators
 	{
-		public static By ContactOption = By.XPath("//nav[@class=' header options']//a[text()='CONTACT']");
-
-		public static By ElemetsModuleOption = By.XPath("//div[@class='category-cards']/descendant::h5[text()='Elements']");
-
 		public static By TextBoxoptions = By.XPath("//div[@class='element-list collapse show']//span[text()='Text Box']");
 
 		public static By TextBoxtitle = By.XPath("//h1[contains(text(), \"Text\")]");
@@ -30,13 +26,6 @@ namespace Practica_selenium___nunit___pom_basic.locators
 		public static By Outputname = By.XPath("//div[@id='output']/descendant::p[@id='name']");
 
 		public static By OutputEmail = By.XPath("//div[@id='output']/descendant::p[@id='email']");
-
-
-
-
+		public static By OutputAdress = By.XPath("//div[@id='output']/descendant::p[@id='currentAddress']");
 	}
-
 }
-
-
-

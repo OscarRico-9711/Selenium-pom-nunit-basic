@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.BiDi.Communication;
 using Practica_selenium___nunit___pom_basic.drivers;
+using Practica_selenium___nunit___pom_basic.pages;
 using Practica_selenium___nunit___pom_basic.utilities;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,32 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 {
 	public class testHooks : IDisposable
 	{
-		protected IWebDriver driver;
 		private string browser;
-		private CommonActions _commonActions;
+		protected IWebDriver driver;
+		protected webDriverManager _webDriverManager;
 
-		[SetUp]
-		public void setUp()
+		protected CommonActions _commonActions;
+		protected HomePage _homePage;
+		protected ElementsPage _elementPages;
+
+		[OneTimeSetUp]
+		public void OneTimeSetUp()
 		{
 
+			_webDriverManager = new webDriverManager();
 			browser = TestContext.Parameters.Get("browser", "chrome"); // Default: Chrome
-			driver = webDriverManager.getDriver(browser);
+			driver = _webDriverManager.getDriver(browser);
 			_commonActions = new CommonActions(driver);
+		}
+
+
+		[SetUp]
+		public void Setup()
+		{
+
+			_homePage = new HomePage(driver);
+			_elementPages = new ElementsPage(driver);
+
 		}
 
 		[TearDown]
@@ -31,25 +47,31 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 
 			if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Failed)
 			{
-				
-
 				_commonActions.TakeScreenshoot();
-
-				Thread.Sleep(2000);
 			}
-			else {
-			
-			Console.WriteLine($"{TestContext.CurrentContext.Test.Name} : {TestContext.CurrentContext.Result.Outcome.Status}");
-
-
+			else
+			{
+				Console.WriteLine($"{TestContext.CurrentContext.Test.Name} : {TestContext.CurrentContext.Result.Outcome.Status}");
 			}
+
+			_commonActions.ClearCookiesAndStorages();
+
+
+		}
+
+
+		[OneTimeTearDown]
+		public void OneTimeTearDown()
+		{
+
+			_webDriverManager.Quitdriver();
 
 		}
 
 		public void Dispose()
 		{
 
-			webDriverManager.Quitdriver();
+			//webDriverManager.Quitdriver();
 		}
 
 

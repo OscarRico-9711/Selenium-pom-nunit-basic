@@ -15,15 +15,27 @@ namespace Practica_selenium___nunit___pom_basic.utilities
 
 		protected readonly WebDriverWait _wait;
 		protected readonly IWebDriver _driver;
+		
 
 		public CommonActions(IWebDriver driver)
 		{
 			_driver = driver;
 			_wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+			
 		}
-		public void FindElement(By locator)
+
+		public void ClearCookiesAndStorages()
+		{
+			_driver.Manage().Cookies.DeleteAllCookies();
+			((IJavaScriptExecutor)_driver).ExecuteScript("window.localStorage.clear();"); // Limpiar local storage
+			((IJavaScriptExecutor)_driver).ExecuteScript("window.sessionStorage.clear();"); // Limpiar session storage
+			Console.WriteLine("Enviroment clean");
+		}
+		public IWebElement FindElement(By locator)
 		{
 			_wait.Until(ExpectedConditions.ElementIsVisible(locator));
+
+			return _driver.FindElement(locator);
 		}
 
 		public void OpenUrl(string Url)
@@ -33,20 +45,21 @@ namespace Practica_selenium___nunit___pom_basic.utilities
 
 		public void Click(By locator)
 		{
-			_wait.Until(ExpectedConditions.ElementToBeClickable(locator)).FindElement(locator).Click();
+			
+			FindElement(locator).Click();
 		}
 
 
 		public void DoubleClick(By locator)
 		{
-			IWebElement element = _wait.Until(ExpectedConditions.ElementToBeClickable(locator));
+			IWebElement element = FindElement((locator));
 			Actions action = new Actions(_driver);
 			action.DoubleClick(element).Perform();
 		}
 
 		public void SendText(By locator, String text)
 		{
-			_wait.Until(ExpectedConditions.ElementIsVisible(locator)).SendKeys(text);
+			FindElement(locator).SendKeys(text);
 		}
 
 		public void sendenter(By locator)
@@ -56,7 +69,12 @@ namespace Practica_selenium___nunit___pom_basic.utilities
 
 		public string GetElementText(By locator)
 		{
-			return _wait.Until(ExpectedConditions.ElementIsVisible(locator)).FindElement(locator).Text;
+			return FindElement(locator).Text;
+		}
+
+		public string GetElementAtribute(By locator, string atribute)
+		{
+			return FindElement(locator).GetAttribute(atribute);
 		}
 
 
@@ -71,6 +89,21 @@ namespace Practica_selenium___nunit___pom_basic.utilities
 			{
 				return false;
 			}
+		}
+
+		public bool ElementIsNotVisible(By locator)
+		{
+
+			try
+			{
+				return !_driver.FindElement(locator).Displayed;
+			}
+			catch (Exception)
+			{
+
+				return true;
+			}
+
 		}
 
 		public void TakeScreenshoot()
@@ -99,7 +132,15 @@ namespace Practica_selenium___nunit___pom_basic.utilities
 
 			screenshot.SaveAsFile(screenshotpath);
 
-			Console.WriteLine($"screenshoot save in {screenshotpath}");	
+			Console.WriteLine($"screenshoot save in {screenshotpath}");
+		}
+
+
+		public string getElementattribute(string atribute, By locator)
+		{
+
+			return FindElement(locator).GetAttribute(atribute);
+
 		}
 
 
