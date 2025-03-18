@@ -18,8 +18,8 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 		protected webDriverManager _webDriverManager;
 
 		protected CommonActions _commonActions;
-		protected HomePage _homePage;
-		protected ElementsPage _elementPages;
+		
+		
 
 		[OneTimeSetUp]
 		public void OneTimeSetUp()
@@ -29,17 +29,10 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 			browser = TestContext.Parameters.Get("browser", "chrome"); // Default: Chrome
 			driver = _webDriverManager.getDriver(browser);
 			_commonActions = new CommonActions(driver);
-		}
-
-
-		[SetUp]
-		public void Setup()
-		{
-
-			_homePage = new HomePage(driver);
-			_elementPages = new ElementsPage(driver);
 
 		}
+
+
 
 		[TearDown]
 		public void TearDown()

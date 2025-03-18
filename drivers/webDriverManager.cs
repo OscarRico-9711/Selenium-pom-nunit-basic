@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager;
 using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace Practica_selenium___nunit___pom_basic.drivers
 {
 	public class webDriverManager
 	{
 
-		private IWebDriver driver;
+		private IWebDriver? driver;
 
 		public IWebDriver getDriver(String browser)
 		{
@@ -34,8 +35,7 @@ namespace Practica_selenium___nunit___pom_basic.drivers
 
 					if (isHeadless)
 					{
-						options.AddArgument("--headless"); // Opcional: para ejecución sin interfaz gráfica
-					}
+						options.AddArgument("--headless"); 					}
 
 					driver = new ChromeDriver(options);
 
@@ -86,6 +86,8 @@ namespace Practica_selenium___nunit___pom_basic.drivers
 
 
 		}
+
+		
 
 
 	}

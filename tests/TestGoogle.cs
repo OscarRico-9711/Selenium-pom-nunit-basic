@@ -12,7 +12,16 @@ namespace Practica_selenium___nunit___pom_basic.tests
 {
 	public class TestGoogle : testHooks
 	{
+		private HomePage _homePage;
+		private ElementsPage _elementsPage;
 
+
+		[SetUp]
+		public void SetUp() {
+
+			_homePage = new HomePage(driver);
+			_elementsPage = new ElementsPage(driver);
+		}
 
 		/// <summary>
 		/// fill full form succesfuly
@@ -21,26 +30,26 @@ namespace Practica_selenium___nunit___pom_basic.tests
 		public void FillFullFormSuccesfully()
 		{
 			_homePage.OpenURL("https://demoqa.com");
-			_homePage.SelectElemetsModule();
+			_homePage.SelectModule("Elements");
 
-			string currentUrl = _elementPages.GetCurrentUrl();
+			string currentUrl = _elementsPage.GetCurrentUrl();
 			Assert.That(currentUrl, Is.EqualTo("https://demoqa.com/elements"), "Url incorrecta");
 
-			_elementPages.SelectTextBoxOption();
+			_elementsPage.SelectSubModule("Text Box");
 
 			string fullname = "Oscar";
 			string fullEmail = "Oscar@gmail.com";
 			string fullCurrentAdress = "calle23";
 
-			_elementPages.FillFullForm(fullname, fullEmail, fullCurrentAdress);
+			_elementsPage.FillFullForm(fullname, fullEmail, fullCurrentAdress);
 
 
-			bool IsOutputVisible = _elementPages.ElementIsVisible();
+			bool IsOutputVisible = _elementsPage.ElementIsVisible();
 			Assert.That(IsOutputVisible, Is.True, "Elemento no esta presente");
 
-			string fullnameOutPut = _elementPages.GetOutputTextName();
-			string fullEmaiOutPut = _elementPages.GetOutputTextEmail();
-			string fullCurrentAdressOutPut = _elementPages.GetOutputTextAddress();
+			string fullnameOutPut = _elementsPage.GetOutputTextName();
+			string fullEmaiOutPut = _elementsPage.GetOutputTextEmail();
+			string fullCurrentAdressOutPut = _elementsPage.GetOutputTextAddress();
 
 			Assert.That(fullnameOutPut, Does.Contain(fullname));
 			Assert.That(fullEmaiOutPut, Does.Contain(fullEmail));
@@ -52,23 +61,23 @@ namespace Practica_selenium___nunit___pom_basic.tests
 		{
 
 			_homePage.OpenURL("https://demoqa.com");
-			_homePage.SelectElemetsModule();
+			_homePage.SelectModule("Elements");
 
-			string currentUrl = _elementPages.GetCurrentUrl();
+			string currentUrl = _elementsPage.GetCurrentUrl();
 			Assert.That(currentUrl, Is.EqualTo("https://demoqa.com/elements"), "Url incorrecta");
 
-			_elementPages.SelectTextBoxOption();
+			_elementsPage.SelectSubModule("Text Box");
 
 			string fullname = "Oscar";
 			string fullEmail = "Oscargmail.com";
 			string fullCurrentAdress = "calle23";
 
-			_elementPages.FillFullForm(fullname, fullEmail, fullCurrentAdress);
+			_elementsPage.FillFullForm(fullname, fullEmail, fullCurrentAdress);
 
-			bool IsOutputNotVisible = _elementPages.ElementIsNotVisible();
+			bool IsOutputNotVisible = _elementsPage.ElementIsNotVisible();
 			Assert.That(IsOutputNotVisible, Is.True, "Elemento si esta presente");
 
-			string emailatribute = _elementPages.GetEmailFieldAtribute().ToLower();
+			string emailatribute = _elementsPage.GetEmailFieldAtribute().ToLower();
 			Assert.That(emailatribute, Does.Contain("error"));
 
 		}

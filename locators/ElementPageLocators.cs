@@ -11,6 +11,11 @@ namespace Practica_selenium___nunit___pom_basic.locators
 	{
 		public static By TextBoxoptions = By.XPath("//div[@class='element-list collapse show']//span[text()='Text Box']");
 
+		public static By SelectSubModule(string subModule) {
+
+			return By.XPath($"//div[@class='element-list collapse show']//span[text()='{subModule}']");
+		}
+
 		public static By TextBoxtitle = By.XPath("//h1[contains(text(), \"Text\")]");
 
 		public static By fullname = By.XPath("//form//input[@id='userName']");

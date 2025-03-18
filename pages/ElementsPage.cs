@@ -11,8 +11,13 @@ namespace Practica_selenium___nunit___pom_basic.pages
 {
 	public class ElementsPage : CommonActions
 	{
+		protected CommonActions commonActions;
+		public ElementsPage(IWebDriver driver) : base(driver) {
 
-		public ElementsPage(IWebDriver driver) : base(driver) { }
+			commonActions = new CommonActions(driver);
+
+
+		}
 
 		public string GetCurrentUrl()
 		{
@@ -22,6 +27,11 @@ namespace Practica_selenium___nunit___pom_basic.pages
 		public void SelectTextBoxOption()
 		{
 			Click(ElementPageLocators.TextBoxoptions);
+		}
+		public void SelectSubModule(string subModule) {
+
+			Click(ElementPageLocators.SelectSubModule(subModule));
+	
 		}
 
 		public void FillFullForm(string fullname, string fullEmail, string fullCurrentAdress)

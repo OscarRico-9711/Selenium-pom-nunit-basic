@@ -13,6 +13,11 @@ namespace Practica_selenium___nunit___pom_basic.locators
 
 		public static By ElemetsModuleOption = By.XPath("//div[@class='category-cards']/descendant::h5[text()='Elements']");
 
+		public static By GetModule(string module)
+		{
+			return By.XPath($"//div[@class='category-cards']/descendant::h5[text()='{module}']");
+		}
+
 		public static By TextBoxoptions = By.XPath("//div[@class='element-list collapse show']//span[text()='Text Box']");
 
 		public static By TextBoxtitle = By.XPath("//h1[contains(text(), \"Text\")]");

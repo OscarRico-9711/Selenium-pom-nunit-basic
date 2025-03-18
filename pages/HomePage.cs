@@ -15,19 +15,20 @@ namespace Practica_selenium___nunit___pom_basic.pages
 	public class HomePage : CommonActions
 	{
 
-		public HomePage(IWebDriver driver) : base(driver) { }
+
+		public HomePage(IWebDriver driver) : base(driver){}
 
 		public void OpenURL(string url)
 		{
 			OpenUrl(url);
 		}
 
-		public void SelectElemetsModule()
+		public void SelectModule(string module)
 		{
-			Click(HomePageLocators.ElemetsModuleOption);
+			Click(HomePageLocators.GetModule(module));
 		}
 
-		
+
 
 
 	}

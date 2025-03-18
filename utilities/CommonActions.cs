@@ -45,8 +45,7 @@ namespace Practica_selenium___nunit___pom_basic.utilities
 
 		public void Click(By locator)
 		{
-			
-			FindElement(locator).Click();
+			_wait.Until(ExpectedConditions.ElementToBeClickable(locator)).Click();	
 		}
 
 
