@@ -10,19 +10,19 @@ pipeline {
         
         stage('Restore dependencies') {
             steps {
-                sh 'dotnet restore'
+                bat  'dotnet restore'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'dotnet build --configuration Release'
+                bat  'dotnet build --configuration Release'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'dotnet test --configuration Release --logger trx'
+                bat  'dotnet test --configuration Release --logger trx'
             }
         }
     }
