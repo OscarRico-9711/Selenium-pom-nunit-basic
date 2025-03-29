@@ -32,8 +32,6 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 
 		}
 
-
-
 		[TearDown]
 		public void TearDown()
 		{
@@ -57,14 +55,14 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 		public void OneTimeTearDown()
 		{
 
-			_webDriverManager.Quitdriver();
+			Dispose();
 
 		}
 
 		public void Dispose()
 		{
 
-			//webDriverManager.Quitdriver();
+			_webDriverManager.Quitdriver();
 		}
 
 

@@ -21,10 +21,26 @@ namespace Practica_selenium___nunit___pom_basic.locators
 		public static By ModalX = By.XPath("//button[@class='close']");
 
 
-		public By LookUptext(string numberofcelda, string text)
+
+		public static By DeleteIcon(string name, string apellido)
 		{
-			return By.XPath($"//div[@class='rt-tr-group']//div[@class='rt-td'][{numberofcelda}][(text()='{text}')]");
-			////div[@class='rt-tr-group']//div[@class='rt-td'][1][normalize-space(text())='Kierra']
+
+			return By.XPath($"//div[@class='rt-tr -even'][div[contains(text(),'{name}')]][div[contains(text(),'{apellido}')]]//span[@title='Delete']");
+			////div[@class='rt-tr -even'][div[contains(text(),'Oscar')]][div[contains(text(),'Rico')]]//span[@title='Delete']
+			//div[contains(@class,'rt-tr')][.//div[contains(text(),'Oscar')]][.//div[contains(text(),'Rico')]]//span[@title='Delete']
+		}
+
+		public static By DeleteAllRecords = By.XPath("//span[@title='Delete']");
+
+		public static By EditIcon(string name, string apellido)
+		{
+
+			return By.XPath($"//div[@class='rt-tr -even'][div[contains(text(),'{name}')]][div[contains(text(),'{apellido}')]]//span[@title='Edit']");
+		}
+
+		public By Particularrecord(string name, string apellido)
+		{
+			return By.XPath($".//div[contains(text(),'{name}')][//div[contains(text(),'{apellido}')]]");
 		}
 	}
 }

@@ -76,7 +76,7 @@ namespace Practica_selenium___nunit___pom_basic.drivers
 
 				string jsontext = File.ReadAllText(jsonPath);
 				JObject config = JObject.Parse(jsontext);
-				return config["headless"]?.ToObject<bool>() ?? false;
+				return config["HideBrowser"]?.ToObject<bool>() ?? false;
 			}
 			catch (Exception)
 			{

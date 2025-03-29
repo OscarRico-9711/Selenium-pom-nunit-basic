@@ -58,6 +58,7 @@ namespace Practica_selenium___nunit___pom_basic.utilities
 
 		public void SendText(By locator, String text)
 		{
+			FindElement(locator).Clear();
 			FindElement(locator).SendKeys(text);
 		}
 
@@ -92,17 +93,14 @@ namespace Practica_selenium___nunit___pom_basic.utilities
 
 		public bool ElementIsNotVisible(By locator)
 		{
-
 			try
 			{
-				return !_driver.FindElement(locator).Displayed;
+				return _wait.Until(ExpectedConditions.InvisibilityOfElementLocated(locator));
 			}
-			catch (Exception)
+			catch (WebDriverTimeoutException)
 			{
-
-				return true;
+				return false; // Si el tiempo expira, el elemento sigue visible
 			}
-
 		}
 
 		public void TakeScreenshoot()

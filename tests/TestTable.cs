@@ -41,9 +41,78 @@ namespace Practica_selenium___nunit___pom_basic.tests
 			_tablePage.FillDepartamet("Cun");
 			_tablePage.SubmitForm();
 
-			bool modalNotvisible = _tablePage.ModalIsPresent();
-			Assert.That(modalNotvisible, Is.True);
+			bool modalNotvisible = _tablePage.ModalIsNotPresent();
+			Assert.That(modalNotvisible, Is.True, "El modal SI es visible ");
 
+			bool recordExist = _tablePage.RecordExist("Oscar", "Rico");
+			Assert.That(recordExist, Is.True, "El registro no fue editado");
+
+		}
+		[Test]
+		public void EditRecord()
+		{
+
+			_homepage.OpenURL("https://demoqa.com/");
+			_homepage.SelectModule("Elements");
+			_elements.SelectSubModule("Web Tables");
+			_tablePage.SelectAddButton();
+			bool modalvisible = _tablePage.ModalIsPresent();
+			Assert.That(modalvisible, Is.True);
+
+			_tablePage.FillName("Oscar");
+			_tablePage.FillLast("Rico");
+			_tablePage.FillEmail("oscar@test.com");
+			_tablePage.FillAge("27");
+			_tablePage.FillSalary("3000");
+			_tablePage.FillDepartamet("Cun");
+			_tablePage.SubmitForm();
+
+
+			bool modalNotvisible = _tablePage.ModalIsNotPresent();
+			Assert.That(modalNotvisible, Is.True, "esta visible el modal");
+
+			_tablePage.EditRecord("Oscar", "Rico");
+
+			modalvisible = _tablePage.ModalIsPresent();
+			Assert.That(modalvisible, Is.True);
+
+			_tablePage.FillName("Daniel");
+			_tablePage.SubmitForm();
+
+			modalNotvisible = _tablePage.ModalIsNotPresent();
+			Assert.That(modalNotvisible, Is.True, "El modal SI es visible ");
+
+			bool recordExist = _tablePage.RecordExist("Daniel", "Rico");
+			Assert.That(recordExist, Is.True, "El registro no fue editado");
+		}
+
+		[Test]
+		public void DeleteRecord()
+		{
+			_homepage.OpenURL("https://demoqa.com/");
+			_homepage.SelectModule("Elements");
+			_elements.SelectSubModule("Web Tables");
+			_tablePage.SelectAddButton();
+
+			bool modalvisible = _tablePage.ModalIsPresent();
+			Assert.That(modalvisible, Is.True);
+
+			_tablePage.FillName("Oscar");
+			_tablePage.FillLast("Rico");
+			_tablePage.FillEmail("oscar@test.com");
+			_tablePage.FillAge("27");
+			_tablePage.FillSalary("3000");
+			_tablePage.FillDepartamet("Cun");
+			_tablePage.SubmitForm();
+
+
+			bool modalNotvisible = _tablePage.ModalIsNotPresent();
+			Assert.That(modalNotvisible, Is.True, "esta visible el modal");
+
+			_tablePage.DeleteRecord("Oscar", "Rico");
+
+			bool recordnOTExist = _tablePage.RecordNotExist("Oscar", "Rico");
+			Assert.That(recordnOTExist, Is.True, "El registro no fue eliminado");
 		}
 
 		[Test]
@@ -62,6 +131,51 @@ namespace Practica_selenium___nunit___pom_basic.tests
 			bool modalNotvisible = _tablePage.ModalIsPresent();
 			Assert.That(modalNotvisible, Is.True);
 
+		}
+
+		[Test]
+		public void DeleteAllRecords()
+		{
+			_homepage.OpenURL("https://demoqa.com/");
+			_homepage.SelectModule("Elements");
+			_elements.SelectSubModule("Web Tables");
+
+			_tablePage.DeleteALLRecord();
+
+			Thread.Sleep(4000);
+
+
+		}
+
+
+		[Test]
+		public void ValidateFields()
+		{
+
+			_homepage.OpenURL("https://demoqa.com/");
+			_homepage.SelectModule("Elements");
+			_elements.SelectSubModule("Web Tables");
+			_tablePage.SelectAddButton();
+
+			bool modalvisible = _tablePage.ModalIsPresent();
+			Assert.That(modalvisible, Is.True);
+
+
+			bool isrequired = _tablePage.ValidateNameField();
+			Assert.That(isrequired, Is.True);
+
+
+			bool isrequiredEmail = _tablePage.ValidateEmailRequired();
+			Assert.That(isrequiredEmail, Is.True);
+
+
+			//_tablePage.FillName("Oscar");
+			//_tablePage.FillLast("Rico");
+			//_tablePage.FillEmail("oscar@test.com");
+			//_tablePage.FillAge("27");
+			//_tablePage.FillSalary("3000");
+			//_tablePage.FillDepartamet("Cun");
+			//_tablePage.SubmitForm();
 		}
 	}
 }
