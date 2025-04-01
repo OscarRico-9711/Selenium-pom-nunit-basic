@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Allure.Net.Commons;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
@@ -105,31 +106,19 @@ namespace Practica_selenium___nunit___pom_basic.utilities
 
 		public void TakeScreenshoot()
 		{
-			string nametest = $"{TestContext.CurrentContext.Test.Name}";
+			string TestName = $"{TestContext.CurrentContext.Test.Name}";
 
-			//create folder
-			string screenshotsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ScreenShoots");
+			// 1. Tomar screenshot y convertirlo a bytes
+			var screenshot = ((ITakesScreenshot)_driver).GetScreenshot().AsByteArray;
 
-			//validate if folder exist before to create it
-			if (!Directory.Exists(screenshotsFolder))
-			{
+			// 2. Adjuntar directamente a Allure (sin guardar en disco)
+			AllureApi.AddAttachment(
+				name: $"Screenshot - {TestName}",
+				type: "image/png",
+				content: screenshot
+			);
 
-				Directory.CreateDirectory(screenshotsFolder);
-
-			}
-
-			//take screenshot
-
-			var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-
-
-			//save screenshot
-
-			string screenshotpath = Path.Combine(screenshotsFolder, $"{nametest}_{DateTime.Now:yyMMdd_HHmmss}.png");
-
-			screenshot.SaveAsFile(screenshotpath);
-
-			Console.WriteLine($"screenshoot save in {screenshotpath}");
+			Console.WriteLine($"screenshoot save Allure Report");
 		}
 
 

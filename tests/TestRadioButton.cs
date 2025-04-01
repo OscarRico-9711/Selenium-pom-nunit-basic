@@ -1,4 +1,6 @@
-﻿using Practica_selenium___nunit___pom_basic.hooks;
+﻿using Allure.NUnit;
+using Allure.NUnit.Attributes;
+using Practica_selenium___nunit___pom_basic.hooks;
 using Practica_selenium___nunit___pom_basic.pages;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace Practica_selenium___nunit___pom_basic.tests
 {
+	[TestFixture]
+	[AllureNUnit]
+	[AllureFeature("Radio Button component")]
+	[AllureSuite("Radio Button")]
 	internal class TestRadioButton : testHooks
 	{
 		private HomePage _homePage;

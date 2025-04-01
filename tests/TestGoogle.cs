@@ -1,4 +1,6 @@
-﻿using Practica_selenium___nunit___pom_basic.drivers;
+﻿using Allure.NUnit;
+using Allure.NUnit.Attributes;
+using Practica_selenium___nunit___pom_basic.drivers;
 using Practica_selenium___nunit___pom_basic.hooks;
 using Practica_selenium___nunit___pom_basic.pages;
 using Practica_selenium___nunit___pom_basic.utilities;
@@ -10,6 +12,11 @@ using System.Threading.Tasks;
 
 namespace Practica_selenium___nunit___pom_basic.tests
 {
+	[TestFixture]
+	[AllureNUnit]
+	[AllureFeature("form component")]
+	[AllureSuite("Form")]
+
 	public class TestGoogle : testHooks
 	{
 		private HomePage _homePage;

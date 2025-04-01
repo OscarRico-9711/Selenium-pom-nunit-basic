@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Allure.NUnit;
+using OpenQA.Selenium;
 using OpenQA.Selenium.BiDi.Communication;
 using Practica_selenium___nunit___pom_basic.drivers;
 using Practica_selenium___nunit___pom_basic.pages;
@@ -11,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Practica_selenium___nunit___pom_basic.hooks
 {
+
+
+	
 	public class testHooks : IDisposable
 	{
 		private string browser;
@@ -18,8 +22,8 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 		protected webDriverManager _webDriverManager;
 
 		protected CommonActions _commonActions;
-		
-		
+	
+
 
 		[OneTimeSetUp]
 		public void OneTimeSetUp()
@@ -38,7 +42,7 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 
 			if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Failed)
 			{
-				_commonActions.TakeScreenshoot();
+				_commonActions.TakeScreenshoot();				
 			}
 			else
 			{

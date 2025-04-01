@@ -1,4 +1,6 @@
-﻿using Practica_selenium___nunit___pom_basic.hooks;
+﻿using Allure.NUnit;
+using Allure.NUnit.Attributes;
+using Practica_selenium___nunit___pom_basic.hooks;
 using Practica_selenium___nunit___pom_basic.pages;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace Practica_selenium___nunit___pom_basic.tests
 {
+	[TestFixture]
+	[AllureNUnit]
+	[AllureFeature("Check box component")]
+	[AllureSuite("check Box")]
+
 	internal class TestCheckBox : testHooks
 	{
 		private HomePage _homePage;
