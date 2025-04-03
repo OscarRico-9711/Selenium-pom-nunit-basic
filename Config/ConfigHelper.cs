@@ -29,7 +29,7 @@ namespace Practica_selenium___nunit___pom_basic.Config
 
 
 		public static string Browser => config["Browser"]?.ToString() ?? "chrome";
-		public static bool IsHeadless => bool.TryParse(config["Headless"], out var result) && result;
+		public static bool IsHeadless => bool.TryParse(config["HideBrowser"], out var result) && result;
 		public static string Url => config["Url"]?.ToString() ?? "https://demoqa.com";
 
 	}

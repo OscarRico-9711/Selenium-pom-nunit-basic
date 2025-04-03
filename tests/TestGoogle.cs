@@ -72,7 +72,7 @@ namespace Practica_selenium___nunit___pom_basic.tests
 			_homePage.SelectModule("Elements");
 
 			string currentUrl = _elementsPage.GetCurrentUrl();
-			Assert.That(currentUrl, Is.EqualTo(ConfigHelper.Url + "elements"), "Url incorrecta");
+			Assert.That(currentUrl, Is.EqualTo(ConfigHelper.Url + "/elements"), "Url incorrecta");
 
 			_elementsPage.SelectSubModule("Text Box");
 
