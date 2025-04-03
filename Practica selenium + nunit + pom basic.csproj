@@ -8,6 +8,7 @@
 
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
+		<AllureResultsDirectory>$(MSBuildProjectDirectory)\allure-results</AllureResultsDirectory>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -32,6 +33,12 @@
 
 	<ItemGroup>
 		<None Update="AppSettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="$(AllureResultsDirectory)\*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

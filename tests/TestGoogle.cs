@@ -1,5 +1,6 @@
 ﻿using Allure.NUnit;
 using Allure.NUnit.Attributes;
+using Practica_selenium___nunit___pom_basic.Config;
 using Practica_selenium___nunit___pom_basic.drivers;
 using Practica_selenium___nunit___pom_basic.hooks;
 using Practica_selenium___nunit___pom_basic.pages;
@@ -36,11 +37,11 @@ namespace Practica_selenium___nunit___pom_basic.tests
 		[Test]
 		public void FillFullFormSuccesfully()
 		{
-			_homePage.OpenURL("https://demoqa.com");
+			_homePage.OpenURL(ConfigHelper.Url);
 			_homePage.SelectModule("Elements");
 
 			string currentUrl = _elementsPage.GetCurrentUrl();
-			Assert.That(currentUrl, Is.EqualTo("https://demoqa.com/elements"), "Url incorrecta");
+			Assert.That(currentUrl, Is.EqualTo(ConfigHelper.Url+"/elements"), "Url incorrecta");
 
 			_elementsPage.SelectSubModule("Text Box");
 
@@ -67,11 +68,11 @@ namespace Practica_selenium___nunit___pom_basic.tests
 		public void ValidateEmailFieldError()
 		{
 
-			_homePage.OpenURL("https://demoqa.com");
+			_homePage.OpenURL(ConfigHelper.Url);
 			_homePage.SelectModule("Elements");
 
 			string currentUrl = _elementsPage.GetCurrentUrl();
-			Assert.That(currentUrl, Is.EqualTo("https://demoqa.com/elements"), "Url incorrecta");
+			Assert.That(currentUrl, Is.EqualTo(ConfigHelper.Url + "elements"), "Url incorrecta");
 
 			_elementsPage.SelectSubModule("Text Box");
 

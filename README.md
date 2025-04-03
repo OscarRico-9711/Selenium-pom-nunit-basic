@@ -1,16 +1,31 @@
-In this demo I can see the basic POM structure applied with C#, Nunit, Selenium
+﻿Selenium POM Demo with C#
 
-Folders:
--drivers		
--hooks
--utilities
--locators
--pages
--tests
+This project demonstrates the Page Object Model (POM) structure using C#, NUnit, Selenium, Allure Reports, and Jenkins.
 
-Topics
--explicit waits
--POM
--Screenshoots
+📂 Folder Structure
 
-	
+drivers – WebDriver setup
+
+hooks – Test setup & teardown
+
+utilities – Helper functions
+
+locators – Element locators
+
+pages – Page Object Model classes
+
+tests – Test cases
+
+🔹 Topics Covered
+
+Explicit waits
+
+Page Object Model (POM)
+
+Screenshots on failure
+
+🚀 CI/CD Integration
+ 
+Allure Reports for test reporting
+
+Jenkins for automation

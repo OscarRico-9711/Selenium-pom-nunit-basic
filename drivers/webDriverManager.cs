@@ -1,94 +1,76 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using WebDriverManager.DriverConfigs.Impl;
+using OpenQA.Selenium.Edge;
 using WebDriverManager;
-using Newtonsoft.Json.Linq;
-using System.Text.Json;
+using WebDriverManager.DriverConfigs.Impl;
+using Practica_selenium___nunit___pom_basic.utilities;
+using System;
+using Practica_selenium___nunit___pom_basic.Config;
 
 namespace Practica_selenium___nunit___pom_basic.drivers
 {
 	public class webDriverManager
 	{
-
 		private IWebDriver? driver;
 
-		public IWebDriver getDriver(String browser)
+		public IWebDriver getDriver()
 		{
 			if (driver == null)
 			{
-				// Leer la configuración desde el JSON
-				bool isHeadless = GetHeadlessConfig();
-
-				if (browser.ToLower() == "chrome")
+				switch (ConfigHelper.Browser.ToLower())
 				{
-					new DriverManager().SetUpDriver(new ChromeConfig());
-					ChromeOptions options = new ChromeOptions();
-					options.AddArgument("--no-sandbox");
-					options.AddArgument("--disable-dev-shm-usage");
-
-					if (isHeadless)
-					{
-						options.AddArgument("--headless"); 					}
-
-					driver = new ChromeDriver(options);
-
-				}
-				else if (browser.ToLower() == "firefox")
-				{
-					new DriverManager().SetUpDriver(new FirefoxConfig());  // Descarga y configura GeckoDriver
-					driver = new FirefoxDriver();
-				}
-				else
-				{
-					throw new ArgumentException("Navegador no soportado: " + browser);
+					case "chrome":
+						driver = SetupChromeDriver();
+						break;
+					case "firefox":
+						driver = SetupFirefoxDriver();
+						break;
+					case "edge":
+						driver = SetupEdgeDriver();
+						break;
+					default:
+						throw new ArgumentException($"Unsupported browser: {ConfigHelper.Browser}");
 				}
 
 				driver.Manage().Window.Maximize();
 			}
 
 			return driver;
-
 		}
-		public void Quitdriver()
+
+		public void QuitDriver()
 		{
-			if (driver != null)
-			{
-				driver.Quit();     // Cierra el navegador  				
-				driver = null;
-			}
+			driver?.Quit();
+			driver = null;
 		}
 
-		public static bool GetHeadlessConfig()
+		private IWebDriver SetupChromeDriver()
 		{
+			new DriverManager().SetUpDriver(new ChromeConfig());
+			ChromeOptions options = new ChromeOptions();
+			options.AddArguments("--no-sandbox", "--disable-dev-shm-usage");
+			if (ConfigHelper.IsHeadless) options.AddArgument("--headless");
 
-			try
-			{
-				string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
-				string jsonPath = Path.Combine(baseDirectory, "AppSettings.json");
-
-				string jsontext = File.ReadAllText(jsonPath);
-				JObject config = JObject.Parse(jsontext);
-				return config["HideBrowser"]?.ToObject<bool>() ?? false;
-			}
-			catch (Exception)
-			{
-
-				return false;
-			}
-
-
+			return new ChromeDriver(options);
 		}
 
-		
+		private IWebDriver SetupFirefoxDriver()
+		{
+			new DriverManager().SetUpDriver(new FirefoxConfig());
+			FirefoxOptions options = new FirefoxOptions();
+			if (ConfigHelper.IsHeadless) options.AddArgument("--headless");
 
+			return new FirefoxDriver(options);
+		}
 
+		private IWebDriver SetupEdgeDriver()
+		{
+			new DriverManager().SetUpDriver(new EdgeConfig());
+			EdgeOptions options = new EdgeOptions();
+			if (ConfigHelper.IsHeadless) options.AddArgument("headless");
+
+			return new EdgeDriver(options);
+		}
 	}
 }

@@ -31,7 +31,7 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 
 			_webDriverManager = new webDriverManager();
 			browser = TestContext.Parameters.Get("browser", "chrome"); // Default: Chrome
-			driver = _webDriverManager.getDriver(browser);
+			driver = _webDriverManager.getDriver();
 			_commonActions = new CommonActions(driver);
 
 		}
@@ -66,7 +66,7 @@ namespace Practica_selenium___nunit___pom_basic.hooks
 		public void Dispose()
 		{
 
-			_webDriverManager.Quitdriver();
+			_webDriverManager.QuitDriver();
 		}
 
 

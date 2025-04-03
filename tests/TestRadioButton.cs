@@ -1,5 +1,6 @@
 ﻿using Allure.NUnit;
 using Allure.NUnit.Attributes;
+using Practica_selenium___nunit___pom_basic.Config;
 using Practica_selenium___nunit___pom_basic.hooks;
 using Practica_selenium___nunit___pom_basic.pages;
 using System;
@@ -37,7 +38,7 @@ namespace Practica_selenium___nunit___pom_basic.tests
 		public void ValidateSelectedRadioButton()
 		{
 		
-			_homePage.OpenURL("https://demoqa.com/");
+			_homePage.OpenURL(ConfigHelper.Url);
 			_homePage.SelectModule("Elements");
 			_elementsPage.SelectSubModule("Radio Button");
 			_radioButtonPage.selectRadioButton();
