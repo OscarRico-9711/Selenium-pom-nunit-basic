@@ -25,5 +25,11 @@ pipeline {
                 bat  'dotnet test --configuration Release --logger trx'
             }
         }
+
+        stage('Show Report') {
+            steps {
+                bat  'allure serve "C:\Users\Usuario\source\repos\Practica selenium + nunit + pom basic\bin\Debug\net8.0\allure-results"'
+            }
+        }
     }
 }
