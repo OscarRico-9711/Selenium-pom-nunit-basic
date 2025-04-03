@@ -28,7 +28,7 @@ pipeline {
 
         stage('Show Report') {
             steps {
-                bat  'allure serve "C:\Users\Usuario\source\repos\Practica selenium + nunit + pom basic\bin\Debug\net8.0\allure-results"'
+                bat  '"allure serve "C:\Users\Usuario\source\repos\Practica selenium + nunit + pom basic\bin\Debug\net8.0\allure-results"'
             }
         }
     }
