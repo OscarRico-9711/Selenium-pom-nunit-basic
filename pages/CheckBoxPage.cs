@@ -1,13 +1,13 @@
 ﻿using OpenQA.Selenium;
-using Practica_selenium___nunit___pom_basic.locators;
-using Practica_selenium___nunit___pom_basic.utilities;
+using PracticaNunitAllureJenkins1.locators;
+using PracticaNunitAllureJenkins1.utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Practica_selenium___nunit___pom_basic.pages
+namespace PracticaNunitAllureJenkins1.pages
 {
 	internal class CheckBoxPage : CommonActions
 	{

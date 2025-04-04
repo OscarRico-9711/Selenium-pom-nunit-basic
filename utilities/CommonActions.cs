@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Practica_selenium___nunit___pom_basic.utilities
+namespace PracticaNunitAllureJenkins1.utilities
 {
 	public class CommonActions
 	{

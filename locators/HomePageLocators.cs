@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Practica_selenium___nunit___pom_basic.locators
+namespace PracticaNunitAllureJenkins1.locators
 {
 	public class HomePageLocators
 	{

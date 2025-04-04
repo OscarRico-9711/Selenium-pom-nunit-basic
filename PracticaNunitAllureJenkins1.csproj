@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-		<RootNamespace>Practica_selenium___nunit___pom_basic</RootNamespace>
+		<RootNamespace>PracticaNunitAllureJenkins1</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 

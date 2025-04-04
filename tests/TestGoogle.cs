@@ -1,17 +1,17 @@
 ﻿using Allure.NUnit;
 using Allure.NUnit.Attributes;
-using Practica_selenium___nunit___pom_basic.Config;
-using Practica_selenium___nunit___pom_basic.drivers;
-using Practica_selenium___nunit___pom_basic.hooks;
-using Practica_selenium___nunit___pom_basic.pages;
-using Practica_selenium___nunit___pom_basic.utilities;
+using PracticaNunitAllureJenkins1.Config;
+using PracticaNunitAllureJenkins1.drivers;
+using PracticaNunitAllureJenkins1.hooks;
+using PracticaNunitAllureJenkins1.pages;
+using PracticaNunitAllureJenkins1.utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Practica_selenium___nunit___pom_basic.tests
+namespace PracticaNunitAllureJenkins1.tests
 {
 	[TestFixture]
 	[AllureNUnit]

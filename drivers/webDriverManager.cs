@@ -4,11 +4,11 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Edge;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
-using Practica_selenium___nunit___pom_basic.utilities;
+using PracticaNunitAllureJenkins1.utilities;
 using System;
-using Practica_selenium___nunit___pom_basic.Config;
+using PracticaNunitAllureJenkins1.Config;
 
-namespace Practica_selenium___nunit___pom_basic.drivers
+namespace PracticaNunitAllureJenkins1.drivers
 {
 	public class webDriverManager
 	{

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Practica_selenium___nunit___pom_basic.Config
+namespace PracticaNunitAllureJenkins1.Config
 {
 	/// <summary>
 	/// Get the Json atributes from AppSettings.json 

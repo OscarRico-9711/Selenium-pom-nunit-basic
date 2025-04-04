@@ -1,16 +1,16 @@
 ﻿using Allure.NUnit;
 using OpenQA.Selenium;
 using OpenQA.Selenium.BiDi.Communication;
-using Practica_selenium___nunit___pom_basic.drivers;
-using Practica_selenium___nunit___pom_basic.pages;
-using Practica_selenium___nunit___pom_basic.utilities;
+using PracticaNunitAllureJenkins1.drivers;
+using PracticaNunitAllureJenkins1.pages;
+using PracticaNunitAllureJenkins1.utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Practica_selenium___nunit___pom_basic.hooks
+namespace PracticaNunitAllureJenkins1.hooks
 {
 
 
