@@ -1,6 +1,11 @@
 pipeline {
     agent any
     
+    tools {
+        // Configura Allure en "Global Tool Configuration" en Jenkins
+        allure 'allure' // Nombre de tu instalación Allure en Jenkins
+    }
+    
     stages {
         stage('Checkout') {
             steps {
@@ -22,33 +27,38 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'dotnet test --configuration Release --logger trx --results-directory bin/Debug/net8.0/allure-results'
+                // Ejecuta tests y guarda resultados en la ubicación esperada por Allure
+                bat 'dotnet test --configuration Release --logger "trx;LogFileName=TestResults/testresults.trx" --results-directory TestResults'
+                
+                // Si usas el adaptador Allure para .NET, deberías tener algo como:
+                // bat 'dotnet test --configuration Release --logger "allure" --results-directory allure-results'
             }
             post {
                 always {
-                    echo 'Copiando archivos de resultados de Allure...'
-                    bat 'mkdir allure-results'
-                    bat 'copy bin\\Debug\\net8.0\\allure-results\\* allure-results\\'
+                    // Convierte resultados TRX a formato Allure si es necesario
+                    bat '''
+                        if not exist "allure-results" mkdir allure-results
+                        echo Conversión de formatos si es necesaria...
+                        rem Aquí iría el comando para convertir TRX a Allure si lo necesitas
+                    '''
                 }
-            }
-        }
-
-        stage('Generate Allure Report') {
-            steps {
-                bat 'allure generate allure-results -o allure-report --clean'
-            }
-        }
-
-        stage('Publish Allure Report') {
-            steps {
-                allure includeProperties: false, jdk: '', reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results']]
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline finalizado. Revisión de reportes de Allure.'
+            // Genera y publica el reporte Allure
+            allure([
+                includeProperties: false,
+                jdk: '',
+                properties: [],
+                reportBuildPolicy: 'ALWAYS',
+                results: [[path: 'allure-results']] // O la ruta donde están tus resultados
+            ])
+            
+            // Opcional: Archiva resultados para depuración
+            archiveArtifacts artifacts: '**/TestResults/*.trx, **/allure-results/*', allowEmptyArchive: true
         }
     }
 }
