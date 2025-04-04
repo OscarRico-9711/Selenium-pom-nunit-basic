@@ -22,21 +22,33 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'dotnet test --configuration Release --logger trx'
+                bat 'dotnet test --configuration Release --logger trx --results-directory bin/Debug/net8.0/allure-results'
             }
             post {
                 always {
-                    echo 'Guardando resultados de pruebas...'
-                    bat 'allure generate allure-results -o allure-report --clean'
+                    echo 'Copiando archivos de resultados de Allure...'
+                    bat 'mkdir allure-results'
+                    bat 'copy bin\\Debug\\net8.0\\allure-results\\* allure-results\\'
                 }
+            }
+        }
+
+        stage('Generate Allure Report') {
+            steps {
+                bat 'allure generate allure-results -o allure-report --clean'
+            }
+        }
+
+        stage('Publish Allure Report') {
+            steps {
+                allure includeProperties: false, jdk: '', reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results']]
             }
         }
     }
 
     post {
         always {
-            echo 'Publicando reporte de Allure...'
-            allure includeProperties: false, jdk: '', reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results']]
+            echo 'Pipeline finalizado. Revisión de reportes de Allure.'
         }
     }
 }
