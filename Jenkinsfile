@@ -22,15 +22,27 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                // 1. Ejecutar tests normalmente (esto generará allure-results si tu proyecto tiene Allure.NUnit configurado)
-                bat 'dotnet test --configuration Release'
+                bat '''
+                    // Limpia resultados anteriores (opcional)
+                    if exist "TestResults" rmdir /Q /S "TestResults"
+                    if exist "allure-results" rmdir /Q /S "allure-results"
+                    
+                    // Ejecuta pruebas con ambos loggers (TRX y Allure)
+                    dotnet test --configuration Release --logger "trx;LogFileName=TestResults/results.trx" --logger "allure" --results-directory TestResults
+                    
+                    // Prepara directorio para Allure
+                    if not exist "allure-results" mkdir "allure-results"
+                    
+                    // Copia resultados de Allure a la ubicación esperada
+                    xcopy /Y /Q "TestResults\\*" "allure-results\\"
+                '''
             }
         }
     }
 
     post {
         always {
-            // Publicar reporte desde la ruta correcta
+            // Genera y publica el reporte Allure
             allure([
                 includeProperties: false,
                 jdk: '',
@@ -39,7 +51,15 @@ pipeline {
                 results: [[path: 'allure-results']]
             ])
             
+            // Archiva resultados para depuración
+            archiveArtifacts artifacts: '**/TestResults/**', allowEmptyArchive: true
             archiveArtifacts artifacts: '**/allure-results/**', allowEmptyArchive: true
+            
+            // Limpieza opcional
+            bat '''
+                echo "Limpiando archivos temporales..."
+                del /Q "*.log" || echo "No hay logs para eliminar"
+            '''
         }
     }
 }
