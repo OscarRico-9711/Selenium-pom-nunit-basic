@@ -23,18 +23,14 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat '''
-                    // Limpia resultados anteriores (opcional)
-                    if exist "TestResults" rmdir /Q /S "TestResults"
+                    // Limpia resultados previos
                     if exist "allure-results" rmdir /Q /S "allure-results"
                     
-                    // Ejecuta pruebas con ambos loggers (TRX y Allure)
-                    dotnet test --configuration Release --logger "trx;LogFileName=TestResults/results.trx" --logger "allure" --results-directory TestResults
+                    // Ejecuta pruebas y guarda resultados en la ruta de Release (como en local)
+                    dotnet test --configuration Release --logger "allure" --results-directory "bin/Release/net8.0/allure-results"
                     
-                    // Prepara directorio para Allure
-                    if not exist "allure-results" mkdir "allure-results"
-                    
-                    // Copia resultados de Allure a la ubicación esperada
-                    xcopy /Y /Q "TestResults\\*" "allure-results\\"
+                    // Copia los resultados a la raíz (para que Allure en Jenkins los encuentre)
+                    xcopy /Y /Q "bin\\Release\\net8.0\\allure-results\\*" "allure-results\\"
                 '''
             }
         }
@@ -42,7 +38,7 @@ pipeline {
 
     post {
         always {
-            // Genera y publica el reporte Allure
+            // Genera el reporte Allure desde la raíz
             allure([
                 includeProperties: false,
                 jdk: '',
@@ -51,15 +47,8 @@ pipeline {
                 results: [[path: 'allure-results']]
             ])
             
-            // Archiva resultados para depuración
-            archiveArtifacts artifacts: '**/TestResults/**', allowEmptyArchive: true
+            // Opcional: Archiva resultados para debug
             archiveArtifacts artifacts: '**/allure-results/**', allowEmptyArchive: true
-            
-            // Limpieza opcional
-            bat '''
-                echo "Limpiando archivos temporales..."
-                del /Q "*.log" || echo "No hay logs para eliminar"
-            '''
         }
     }
 }
