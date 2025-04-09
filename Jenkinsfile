@@ -21,11 +21,11 @@ pipeline {
                     if exist "TestResults" rmdir /Q /S "TestResults"
                     if exist "allure-results" rmdir /Q /S "allure-results"
                     
-                    REM Ejecuta pruebas con logger TRX (para diagnóstico)
-                    dotnet test --configuration Release --logger "trx;LogFileName=TestResults/results.trx" --results-directory TestResults
+                    REM Ejecuta pruebas y guarda resultados de Allure en la ruta por defecto (bin/Release/net8.0/allure-results)
+                    dotnet test --configuration Release --logger "allure"
                     
-                    REM Genera resultados de Allure manualmente (si el logger falla)
-                    xcopy /Y /Q "TestResults\\*" "allure-results\\" || echo "No se copiaron archivos"
+                    REM Copia los resultados de Allure a la raíz (para que Jenkins los encuentre)
+                    xcopy /Y /Q "bin\\Release\\net8.0\\allure-results\\*" "allure-results\\" || echo "No se copiaron archivos"
                 '''
             }
         }
@@ -33,7 +33,7 @@ pipeline {
 
     post {
         always {
-            // Genera reporte Allure (si hay archivos)
+            // Genera reporte Allure desde la carpeta raíz
             allure([
                 includeProperties: false,
                 jdk: '',
@@ -42,8 +42,8 @@ pipeline {
                 results: [[path: 'allure-results']]
             ])
             
-            // Archiva resultados para debug
-            archiveArtifacts artifacts: '**/TestResults/**', allowEmptyArchive: true
+            // Archiva resultados para debug (opcional)
+            archiveArtifacts artifacts: '**/allure-results/**', allowEmptyArchive: true
         }
     }
 }
