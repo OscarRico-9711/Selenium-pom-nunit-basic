@@ -27,11 +27,11 @@ pipeline {
                     if exist "allure-results" rmdir /Q /S "allure-results"
                     if exist "TestResults" rmdir /Q /S "TestResults"
                     
-                    REM Ejecuta pruebas y guarda resultados en TRX (para Jenkins)
+                    REM Ejecuta pruebas y guarda resultados en TRX
                     dotnet test --configuration Release --no-build --logger "trx;LogFileName=TestResults/results.trx" --results-directory TestResults
                     
-                    REM Genera resultados de Allure manualmente (si el logger no funciona)
-                    xcopy /Y /Q "bin\\Release\\net8.0\\TestResults\\*" "allure-results\\" || echo "No se copiaron resultados"
+                    REM Copia resultados a allure-results (si existen)
+                    xcopy /Y /Q "TestResults\\*" "allure-results\\" || echo "No se copiaron resultados"
                 '''
             }
         }
@@ -39,16 +39,14 @@ pipeline {
 
     post {
         always {
-            REM Genera el reporte Allure (si hay archivos)
-            allure([
-                includeProperties: false,
-                jdk: '',
-                properties: [],
-                reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'allure-results']]
-            ])
+            // Genera reporte Allure (si hay archivos)
+            allure includeProperties: false,
+                   jdk: '',
+                   properties: [],
+                   reportBuildPolicy: 'ALWAYS',
+                   results: [[path: 'allure-results']]
             
-            REM Archiva resultados para debug
+            // Archiva resultados para debug
             archiveArtifacts artifacts: '**/TestResults/**', allowEmptyArchive: true
         }
     }
