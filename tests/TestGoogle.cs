@@ -69,7 +69,7 @@ namespace PracticaNunitAllureJenkins1.tests
 		{
 
 			_homePage.OpenURL(ConfigHelper.Url);
-			_homePage.SelectModule("Elements");
+			_homePage.SelectModule("Elementsr");
 
 			string currentUrl = _elementsPage.GetCurrentUrl();
 			Assert.That(currentUrl, Is.EqualTo(ConfigHelper.Url + "/elements"), "Url incorrecta");

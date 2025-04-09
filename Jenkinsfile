@@ -35,7 +35,7 @@ pipeline {
         always {
             // Genera reporte Allure desde la carpeta raíz
             allure([
-                includeProperties: false,
+                includeProperties: false, 
                 jdk: '',
                 properties: [],
                 reportBuildPolicy: 'ALWAYS',
