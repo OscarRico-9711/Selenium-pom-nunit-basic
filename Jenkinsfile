@@ -8,15 +8,9 @@ pipeline {
             }
         }
         
-        stage('Restore dependencies') {
-            steps {
-                bat 'dotnet restore'
-            }
-        }
-
         stage('Build') {
             steps {
-                bat 'dotnet build --configuration Release --no-restore'
+                bat 'dotnet build --configuration Release'
             }
         }
 
@@ -25,13 +19,12 @@ pipeline {
                 bat '''
                     REM Limpia resultados previos
                     if exist "allure-results" rmdir /Q /S "allure-results"
-                    if exist "TestResults" rmdir /Q /S "TestResults"
                     
-                    REM Ejecuta pruebas y guarda resultados en TRX
-                    dotnet test --configuration Release --no-build --logger "trx;LogFileName=TestResults/results.trx" --results-directory TestResults
+                    REM Ejecuta pruebas y guarda resultados en la misma ruta que en local
+                    dotnet test --configuration Release --logger "allure" --results-directory "bin/Release/net8.0/allure-results"
                     
-                    REM Copia resultados a allure-results (si existen)
-                    xcopy /Y /Q "TestResults\\*" "allure-results\\" || echo "No se copiaron resultados"
+                    REM Copia los resultados a la raíz (para que el plugin de Allure en Jenkins los encuentre)
+                    xcopy /Y /Q "bin\\Release\\net8.0\\allure-results\\*" "allure-results\\" || echo "No se copiaron archivos"
                 '''
             }
         }
@@ -39,15 +32,17 @@ pipeline {
 
     post {
         always {
-            // Genera reporte Allure (si hay archivos)
-            allure includeProperties: false,
-                   jdk: '',
-                   properties: [],
-                   reportBuildPolicy: 'ALWAYS',
-                   results: [[path: 'allure-results']]
+            // Genera el reporte Allure desde la carpeta raíz
+            allure([
+                includeProperties: false,
+                jdk: '',
+                properties: [],
+                reportBuildPolicy: 'ALWAYS',
+                results: [[path: 'allure-results']]
+            ])
             
-            // Archiva resultados para debug
-            archiveArtifacts artifacts: '**/TestResults/**', allowEmptyArchive: true
+            // Opcional: Archiva los resultados para debug
+            archiveArtifacts artifacts: '**/allure-results/**', allowEmptyArchive: true
         }
     }
 }
