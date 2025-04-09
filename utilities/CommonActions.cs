@@ -118,9 +118,9 @@ namespace PracticaNunitAllureJenkins1.utilities
 				content: screenshot
 			);
 
-			Console.WriteLine($"screenshoot save Allure Report");
+			Console.WriteLine($"{TestName}: screenshoot saved on Allure Report");
 		}
-
+		 
 
 		public string getElementattribute(string atribute, By locator)
 		{

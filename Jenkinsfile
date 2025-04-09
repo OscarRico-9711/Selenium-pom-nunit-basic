@@ -22,14 +22,8 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                // 1. Ejecutar tests generando resultados Allure
-                bat 'dotnet test --configuration Release --logger "trx;LogFileName=TestResults/testresults.trx" --results-directory TestResults'
-                
-                // 2. Convertir resultados TRX a Allure (necesitas Allure.NUnit)
-                bat '''
-                    if not exist "allure-results" mkdir allure-results
-                    dotnet test --configuration Release --logger "allure" --results-directory allure-results
-                '''
+                // 1. Ejecutar tests normalmente (esto generará allure-results si tu proyecto tiene Allure.NUnit configurado)
+                bat 'dotnet test --configuration Release'
             }
         }
     }
@@ -42,10 +36,9 @@ pipeline {
                 jdk: '',
                 properties: [],
                 reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'allure-results']] // O la ruta específica de tu proyecto
+                results: [[path: 'allure-results']]
             ])
             
-            // Opcional: Archivar resultados para depuración
             archiveArtifacts artifacts: '**/allure-results/**', allowEmptyArchive: true
         }
     }

@@ -13,8 +13,6 @@ using System.Threading.Tasks;
 namespace PracticaNunitAllureJenkins1.hooks
 {
 
-
-	
 	public class testHooks : IDisposable
 	{
 		private string browser;
@@ -48,10 +46,7 @@ namespace PracticaNunitAllureJenkins1.hooks
 			{
 				Console.WriteLine($"{TestContext.CurrentContext.Test.Name} : {TestContext.CurrentContext.Result.Outcome.Status}");
 			}
-
 			_commonActions.ClearCookiesAndStorages();
-
-
 		}
 
 
