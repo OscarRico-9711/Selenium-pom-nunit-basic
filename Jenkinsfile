@@ -16,21 +16,22 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'dotnet build --configuration Release'
+                bat 'dotnet build --configuration Release --no-restore'
             }
         }
 
         stage('Run Tests') {
             steps {
                 bat '''
-                    // Limpia resultados previos
+                    REM Limpia resultados previos
                     if exist "allure-results" rmdir /Q /S "allure-results"
+                    if exist "TestResults" rmdir /Q /S "TestResults"
                     
-                    // Ejecuta pruebas y guarda resultados en la ruta de Release (como en local)
-                    dotnet test --configuration Release --logger "allure" --results-directory "bin/Release/net8.0/allure-results"
+                    REM Ejecuta pruebas y guarda resultados en TRX (para Jenkins)
+                    dotnet test --configuration Release --no-build --logger "trx;LogFileName=TestResults/results.trx" --results-directory TestResults
                     
-                    // Copia los resultados a la raíz (para que Allure en Jenkins los encuentre)
-                    xcopy /Y /Q "bin\\Release\\net8.0\\allure-results\\*" "allure-results\\"
+                    REM Genera resultados de Allure manualmente (si el logger no funciona)
+                    xcopy /Y /Q "bin\\Release\\net8.0\\TestResults\\*" "allure-results\\" || echo "No se copiaron resultados"
                 '''
             }
         }
@@ -38,7 +39,7 @@ pipeline {
 
     post {
         always {
-            // Genera el reporte Allure desde la raíz
+            REM Genera el reporte Allure (si hay archivos)
             allure([
                 includeProperties: false,
                 jdk: '',
@@ -47,8 +48,8 @@ pipeline {
                 results: [[path: 'allure-results']]
             ])
             
-            // Opcional: Archiva resultados para debug
-            archiveArtifacts artifacts: '**/allure-results/**', allowEmptyArchive: true
+            REM Archiva resultados para debug
+            archiveArtifacts artifacts: '**/TestResults/**', allowEmptyArchive: true
         }
     }
 }
