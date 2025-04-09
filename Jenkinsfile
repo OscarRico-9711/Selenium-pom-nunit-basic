@@ -22,7 +22,7 @@ pipeline {
                     if exist "allure-results" rmdir /Q /S "allure-results"
                     
                     REM Ejecuta pruebas y guarda resultados de Allure en la ruta por defecto (bin/Release/net8.0/allure-results)
-                    dotnet test --configuration Release --logger "allure"
+                    dotnet test --configuration Release --logger "trx"
                     
                     REM Copia los resultados de Allure a la raíz (para que Jenkins los encuentre)
                     xcopy /Y /Q "bin\\Release\\net8.0\\allure-results\\*" "allure-results\\" || echo "No se copiaron archivos"
