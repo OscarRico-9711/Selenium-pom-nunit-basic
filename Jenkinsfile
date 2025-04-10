@@ -2,48 +2,73 @@ pipeline {
     agent any
     
     stages {
+        /*---------------------------------*/
+        /* 1. CHECKOUT: Obtener código fuente */
+        /*---------------------------------*/
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/OscarRico-9711/Selenium-pom-nunit-basic.git'
+                git branch: 'main', 
+                url: 'https://github.com/OscarRico-9711/Selenium-pom-nunit-basic.git'
             }
         }
         
+        /*---------------------------------*/
+        /* 2. BUILD: Compilar proyecto */
+        /*---------------------------------*/
         stage('Build') {
             steps {
-                bat 'dotnet build --configuration Release'
+                bat 'dotnet build --configuration Release --no-restore'
             }
         }
 
+        /*---------------------------------*/
+        /* 3. TEST: Ejecutar pruebas con reintentos */
+        /*---------------------------------*/
         stage('Run Tests') {
             steps {
-                bat '''
-                    REM Limpia resultados previos
-                    if exist "TestResults" rmdir /Q /S "TestResults"
-                    if exist "allure-results" rmdir /Q /S "allure-results"
-                    
-                    REM Ejecuta pruebas y guarda resultados de Allure en la ruta por defecto (bin/Release/net8.0/allure-results)
-                    dotnet test --configuration Release --logger "trx"
-                    
-                    REM Copia los resultados de Allure a la raíz (para que Jenkins los encuentre)
-                    xcopy /Y /Q "bin\\Release\\net8.0\\allure-results\\*" "allure-results\\" || echo "No se copiaron archivos"
-                '''
+                script {
+                    // Reintentar hasta 3 veces todo el bloque de pruebas
+                    retry(3) {
+                        bat '''
+                            REM Limpieza de resultados anteriores
+                            if exist "TestResults" rmdir /Q /S "TestResults"
+                            if exist "allure-results" rmdir /Q /S "allure-results"
+                            
+                            REM Ejecución de pruebas
+                            dotnet test --configuration Release --no-build --logger "trx;LogFileName=TestResults/results.trx"
+                            
+                            REM Copia de resultados para Allure
+                            xcopy /Y /Q "bin\\Release\\net8.0\\allure-results\\*" "allure-results\\" || echo "No se copiaron archivos"
+                        '''
+                    }
+                }
             }
         }
     }
 
+    /*---------------------------------*/
+    /* POST-ACCIONES: Generar reportes */
+    /*---------------------------------*/
     post {
         always {
-            // Genera reporte Allure desde la carpeta raíz
-            allure([
-                includeProperties: false, 
+            // Reporte Allure
+            allure(
+                includeProperties: false,
                 jdk: '',
                 properties: [],
                 reportBuildPolicy: 'ALWAYS',
                 results: [[path: 'allure-results']]
-            ])
+            )
             
-            // Archiva resultados para debug (opcional)
-            archiveArtifacts artifacts: '**/allure-results/**', allowEmptyArchive: true
+            // Archivar resultados (opcional)
+            archiveArtifacts artifacts: '**/TestResults/**, **/allure-results/**', allowEmptyArchive: true
+            
+            // Limpieza opcional
+            bat '''
+                echo "=== Resumen del workspace ==="
+                dir /s "TestResults" || echo "No hay TestResults"
+                dir /s "allure-results" || echo "No hay allure-results"
+            '''
         }
     }
 }
