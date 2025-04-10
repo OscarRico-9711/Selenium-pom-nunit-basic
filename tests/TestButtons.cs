@@ -27,8 +27,6 @@ namespace PracticaNunitAllureJenkins1.tests
 			_homepage = new HomePage(driver);
 			_elements = new ElementsPage(driver);
 			_buttonsPage = new ButtonsPage(driver);
-
-
 		}
 
 
@@ -39,16 +37,19 @@ namespace PracticaNunitAllureJenkins1.tests
 			_homepage.SelectModule("Elements");
 			_elements.SelectSubModule("Buttons");
 			_buttonsPage.DoubleClick();
+			_commonActions.TakeScreenshoot();
+			_buttonsPage.RigthClick();
+			_commonActions.TakeScreenshoot();
+			_buttonsPage.RegularClick();
+			_commonActions.TakeScreenshoot();
 
 			string message = _buttonsPage.validateTextResultDoubleClick();
 			Assert.That(message, Does.Contain("You have done a double click"), "El mensaje no es el correcto");
 
-			_buttonsPage.RigthClick();
 
 			string messageRight = _buttonsPage.validateTextResultRigthClick();
 			Assert.That(messageRight, Does.Contain("You have done a right click"), "El mensaje no es el correcto");
 
-			_buttonsPage.RegularClick();
 
 			string messageClick = _buttonsPage.validateTextResultRegularClick();
 			Assert.That(messageClick, Does.Contain("You have done a dynamic click"), "El mensaje no es el correcto");
