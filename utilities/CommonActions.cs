@@ -57,6 +57,13 @@ namespace PracticaNunitAllureJenkins1.utilities
 			action.DoubleClick(element).Perform();
 		}
 
+		public void RightClick(By locator)
+		{
+			IWebElement element = FindElement((locator));
+			Actions action = new Actions(_driver);
+			action.ContextClick(element).Perform();
+		}	
+
 		public void SendText(By locator, String text)
 		{
 			FindElement(locator).Clear();
