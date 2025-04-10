@@ -1,4 +1,6 @@
-﻿using PracticaNunitAllureJenkins1.Config;
+﻿using Allure.NUnit.Attributes;
+using Allure.NUnit;
+using PracticaNunitAllureJenkins1.Config;
 using PracticaNunitAllureJenkins1.hooks;
 using PracticaNunitAllureJenkins1.pages;
 using System;
@@ -9,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace PracticaNunitAllureJenkins1.tests
 {
+	[TestFixture]
+	[AllureNUnit]
+	[AllureFeature("Button Component")]
+	[AllureSuite("Buttons")]
 	public class TestButtons : testHooks
 	{
 		private HomePage _homepage;
