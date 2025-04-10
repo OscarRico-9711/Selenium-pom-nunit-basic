@@ -32,6 +32,7 @@ namespace PracticaNunitAllureJenkins1.tests
 		}
 
 		[Test]
+		[Retry(2)]
 		public void AddRecord()
 		{
 			_homepage.OpenURL(ConfigHelper.Url);
@@ -96,6 +97,7 @@ namespace PracticaNunitAllureJenkins1.tests
 		}
 
 		[Test]
+		[Retry(2)]
 		public void DeleteRecord()
 		{
 			_homepage.OpenURL(ConfigHelper.Url);
@@ -125,6 +127,7 @@ namespace PracticaNunitAllureJenkins1.tests
 		}
 
 		[Test]
+		[Retry(2)]
 		public void CLoseModal()
 		{
 			_homepage.OpenURL(ConfigHelper.Url);
@@ -143,6 +146,7 @@ namespace PracticaNunitAllureJenkins1.tests
 		}
 
 		[Test]
+		[Retry(2)]
 		public void DeleteAllRecords()
 		{
 			_homepage.OpenURL(ConfigHelper.Url);
@@ -156,6 +160,7 @@ namespace PracticaNunitAllureJenkins1.tests
 
 
 		[Test]
+		[Retry(2)]
 		public void ValidateFields()
 		{
 

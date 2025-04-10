@@ -40,7 +40,8 @@ namespace PracticaNunitAllureJenkins1.hooks
 
 			if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Failed)
 			{
-				_commonActions.TakeScreenshoot();				
+				_commonActions.TakeScreenshoot();
+				Console.WriteLine($"{TestContext.CurrentContext.Test.Name} : {TestContext.CurrentContext.Result.Outcome.Status}");
 			}
 			else
 			{

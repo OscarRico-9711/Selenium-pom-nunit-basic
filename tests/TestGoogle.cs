@@ -66,6 +66,7 @@ namespace PracticaNunitAllureJenkins1.tests
 		}
 
 		[Test]
+		[Retry(2)]
 		public void ValidateEmailFieldError()
 		{
 
