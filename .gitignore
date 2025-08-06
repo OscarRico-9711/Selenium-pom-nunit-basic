@@ -2,3 +2,6 @@
 bin/
 obj/
 *.tmp
+# Allure test artifacts
+allure-results/
+allure-report/

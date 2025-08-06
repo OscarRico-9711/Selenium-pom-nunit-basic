@@ -1,6 +1,6 @@
 ﻿Selenium POM Demo with C#
 
-This project demonstrates the Page Object Model (POM) structure using C#, NUnit, Selenium, Allure Reports, and Jenkins.
+This project demonstrates the Page Object Model (POM) structure using C# .NET9, ReqnRoll, NUnit, Selenium, Allure Reports, and Jenkins.
 
 📂 Folder Structure
 

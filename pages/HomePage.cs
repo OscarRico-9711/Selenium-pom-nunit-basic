@@ -12,20 +12,25 @@ using System.Threading.Tasks;
 
 namespace PracticaNunitAllureJenkins1.pages
 {
-	public class HomePage : CommonActions
+	public class HomePage
 	{
+		private readonly IWebDriver _driver;
+		private readonly CommonActions _commonActions;
 
-
-		public HomePage(IWebDriver driver) : base(driver){}
+		public HomePage(IWebDriver driver)
+		{
+			_driver = driver;
+			_commonActions = new CommonActions(_driver);
+		}
 
 		public void OpenURL(string url)
 		{
-			OpenUrl(url);
+			_commonActions.OpenUrl(url);
 		}
 
 		public void SelectModule(string module)
 		{
-			Click(HomePageLocators.GetModule(module));
+			_commonActions.Click(HomePageLocators.GetModule(module));
 		}
 
 

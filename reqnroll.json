@@ -1,0 +1,11 @@
+{
+  "$schema": "https://schemas.reqnroll.net/reqnroll-config-latest.json",
+
+  "bindingAssemblies": [
+  ],
+  "FeatureFolder": "Features",
+  "StepDefinitionsFolder": "StepDefinitions",
+  "PageObjectsFolder": "PageObjects",
+  "HooksFolder": "Hooks",
+  "ExternalDataFolder": "DataSource"
+}

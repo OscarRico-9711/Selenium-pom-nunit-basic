@@ -1,96 +1,96 @@
-﻿using Allure.NUnit;
-using Allure.NUnit.Attributes;
-using PracticaNunitAllureJenkins1.Config;
-using PracticaNunitAllureJenkins1.drivers;
-using PracticaNunitAllureJenkins1.hooks;
-using PracticaNunitAllureJenkins1.pages;
-using PracticaNunitAllureJenkins1.utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using Allure.NUnit;
+//using Allure.NUnit.Attributes;
+//using PracticaNunitAllureJenkins1.Config;
+//using PracticaNunitAllureJenkins1.drivers;
+//using PracticaNunitAllureJenkins1.hooks;
+//using PracticaNunitAllureJenkins1.pages;
+//using PracticaNunitAllureJenkins1.utilities;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace PracticaNunitAllureJenkins1.tests
-{
-	[TestFixture]
-	[AllureNUnit]
-	[AllureFeature("form component")]
-	[AllureSuite("Form")]
+//namespace PracticaNunitAllureJenkins1.tests
+//{
+//	[TestFixture]
+//	[AllureNUnit]
+//	[AllureFeature("form component")]
+//	[AllureSuite("Form")]
 
-	public class TestGoogle : testHooks
-	{
-		private HomePage _homePage;
-		private ElementsPage _elementsPage;
-
-
-		[SetUp]						
-		public void SetUp() {
-
-			_homePage = new HomePage(driver);
-			_elementsPage = new ElementsPage(driver);
-		}
-
-		/// <summary>
-		/// fill full form succesfuly
-		/// </summary>
-		[Test]
-		[Retry(2)]
-		public void FillFullFormSuccesfully()
-		{
-			_homePage.OpenURL(ConfigHelper.Url);
-			_homePage.SelectModule("Elements");
-
-			string currentUrl = _elementsPage.GetCurrentUrl();
-			Assert.That(currentUrl, Is.EqualTo(ConfigHelper.Url+"/elements"), "Url incorrecta");
-
-			_elementsPage.SelectSubModule("Text Box");
-
-			string fullname = "Oscar";
-			string fullEmail = "Oscar@gmail.com";
-			string fullCurrentAdress = "calle23";
-
-			_elementsPage.FillFullForm(fullname, fullEmail, fullCurrentAdress);
+//	public class TestGoogle : testHooks
+//	{
+//		private HomePage _homePage;
+//		private ElementsPage _elementsPage;
 
 
-			bool IsOutputVisible = _elementsPage.ElementIsVisible();
-			Assert.That(IsOutputVisible, Is.True, "Elemento no esta presente");
+//		[SetUp]						
+//		public void SetUp() {
 
-			string fullnameOutPut = _elementsPage.GetOutputTextName();
-			string fullEmaiOutPut = _elementsPage.GetOutputTextEmail();
-			string fullCurrentAdressOutPut = _elementsPage.GetOutputTextAddress();
+//			_homePage = new HomePage(driver);
+//			_elementsPage = new ElementsPage(driver);
+//		}
 
-			Assert.That(fullnameOutPut, Does.Contain(fullname));
-			Assert.That(fullEmaiOutPut, Does.Contain(fullEmail));
-			Assert.That(fullCurrentAdressOutPut, Does.Contain(fullCurrentAdress));
-		}
+//		/// <summary>
+//		/// fill full form succesfuly
+//		/// </summary>
+//		[Test]
+//		[Retry(2)]
+//		public void FillFullFormSuccesfully()
+//		{
+//			_homePage.OpenURL(ConfigHelper.Url);
+//			_homePage.SelectModule("Elements");
 
-		[Test]
-		[Retry(2)]
-		public void ValidateEmailFieldError()
-		{
+//			string currentUrl = _elementsPage.GetCurrentUrl();
+//			Assert.That(currentUrl, Is.EqualTo(ConfigHelper.Url+"/elements"), "Url incorrecta");
 
-			_homePage.OpenURL(ConfigHelper.Url);
-			_homePage.SelectModule("Elements");
+//			_elementsPage.SelectSubModule("Text Box");
 
-			string currentUrl = _elementsPage.GetCurrentUrl();
-			Assert.That(currentUrl, Is.EqualTo(ConfigHelper.Url + "/elements"), "Url incorrecta");
+//			string fullname = "Oscar";
+//			string fullEmail = "Oscar@gmail.com";
+//			string fullCurrentAdress = "calle23";
 
-			_elementsPage.SelectSubModule("Text Box");
+//			_elementsPage.FillFullForm(fullname, fullEmail, fullCurrentAdress);
 
-			string fullname = "Oscar";
-			string fullEmail = "Oscargmail.com";
-			string fullCurrentAdress = "calle23";
 
-			_elementsPage.FillFullForm(fullname, fullEmail, fullCurrentAdress);
+//			bool IsOutputVisible = _elementsPage.ElementIsVisible();
+//			Assert.That(IsOutputVisible, Is.True, "Elemento no esta presente");
 
-			bool IsOutputNotVisible = _elementsPage.ElementIsNotVisible();
-			Assert.That(IsOutputNotVisible, Is.True, "Elemento si esta presente");
+//			string fullnameOutPut = _elementsPage.GetOutputTextName();
+//			string fullEmaiOutPut = _elementsPage.GetOutputTextEmail();
+//			string fullCurrentAdressOutPut = _elementsPage.GetOutputTextAddress();
 
-			string emailatribute = _elementsPage.GetEmailFieldAtribute().ToLower();
-			Assert.That(emailatribute, Does.Contain("error"));
+//			Assert.That(fullnameOutPut, Does.Contain(fullname));
+//			Assert.That(fullEmaiOutPut, Does.Contain(fullEmail));
+//			Assert.That(fullCurrentAdressOutPut, Does.Contain(fullCurrentAdress));
+//		}
 
-		}
-	}
+//		[Test]
+//		[Retry(2)]
+//		public void ValidateEmailFieldError()
+//		{
 
-}
+//			_homePage.OpenURL(ConfigHelper.Url);
+//			_homePage.SelectModule("Elements");
+
+//			string currentUrl = _elementsPage.GetCurrentUrl();
+//			Assert.That(currentUrl, Is.EqualTo(ConfigHelper.Url + "/elements"), "Url incorrecta");
+
+//			_elementsPage.SelectSubModule("Text Box");
+
+//			string fullname = "Oscar";
+//			string fullEmail = "Oscargmail.com";
+//			string fullCurrentAdress = "calle23";
+
+//			_elementsPage.FillFullForm(fullname, fullEmail, fullCurrentAdress);
+
+//			bool IsOutputNotVisible = _elementsPage.ElementIsNotVisible();
+//			Assert.That(IsOutputNotVisible, Is.True, "Elemento si esta presente");
+
+//			string emailatribute = _elementsPage.GetEmailFieldAtribute().ToLower();
+//			Assert.That(emailatribute, Does.Contain("error"));
+
+//		}
+//	}
+
+//}
